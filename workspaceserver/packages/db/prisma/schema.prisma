@@ -12,3 +12,40 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User{
+  id       String @id @unique @default(cuid())
+  username String @unique
+  password String
+  avatarId String?
+  role     String
+  spaces   Space[]
+}
+
+model Space{
+    id          String @id @unique @default(cuid())
+    name        String
+    width       Int
+    hight       Int?
+    thumbnail   String?
+  adminId       String
+  admin         User @relation(fields: [adminId],references: [id])
+  spaceelements spaceElements[]
+
+}
+
+model spaceElements{
+  id        String @id @unique @default(cuid())
+  elementId String
+  spaceId   String
+  x         String
+  y         String
+  space     Space @relation(fields: [spaceId],references: [id])
+}
+
+model Element{
+  id        String @id @unique @default(cuid())
+  width     String
+  hight     String
+  thumbnail String
+}
