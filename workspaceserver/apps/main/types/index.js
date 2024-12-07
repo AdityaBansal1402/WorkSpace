@@ -9,3 +9,7 @@ const SigninSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8)
 })
+const  avatar= z.object({
+    avatar: z.string(),
+    password: z.string()
+})
