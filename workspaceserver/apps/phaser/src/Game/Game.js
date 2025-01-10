@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
+
 
 const Game = () => {
   const gameRef = useRef(null);
@@ -29,11 +30,19 @@ const Game = () => {
 
     // Preload assets (map, tiles, avatar sprite)
     function preload() {
-      this.load.image('tiles', '/assets/tileset.png');  // Load tileset image
-      this.load.tilemapTiledJSON('map', '/assets/map.json');  // Load map created in Tiled
-      this.load.spritesheet('avatar', '/assets/avatar.png', {
-        frameWidth: 16,  // Each frame in the sprite sheet
-        frameHeight: 16,
+      this.load.tilemapTiledJSON('map','/map/map.json');  // Load map created in Tiled
+      this.load.image('FloorAndGround', '/map/FloorAndGround.png');
+      this.load.image('chair', '/items/chair.png');
+      this.load.image('Modern_Office_Black_Shadow', '/items/Modern_Office_Black_Shadow.png');
+      this.load.image('Generic', '/items/Generic.png');
+      this.load.image('computer', '/items/computer.png');
+      this.load.image('whiteboard', '/items/whiteboard.png');
+      this.load.image('Basement', '/items/Basement.png');
+      this.load.image('vendingmachine', '/items/vendingmachine.png');
+      
+      this.load.spritesheet('avatar', '/character/adam.png', {
+        frameWidth: 32,  // Each frame in the sprite sheet
+        frameHeight: 47,
       });
     }
 
@@ -41,9 +50,24 @@ const Game = () => {
     function create() {
       // Create the map
       const map = this.make.tilemap({ key: 'map' });
-      const tileset = map.addTilesetImage('TilesetNameInTiled', 'tiles');
-      const layer = map.createLayer('TileLayerName', tileset);
-      
+
+      // Add each tileset image to the map using the name from the JSON
+      const floorAndGround = map.addTilesetImage('FloorAndGround', 'FloorAndGround');
+      const chair = map.addTilesetImage('chair', 'chair');
+      const modernOffice = map.addTilesetImage('Modern_Office_Black_Shadow', 'Modern_Office_Black_Shadow');
+      const generic = map.addTilesetImage('Generic', 'Generic');
+      const computer = map.addTilesetImage('computer', 'computer');
+      const whiteboard = map.addTilesetImage('whiteboard', 'whiteboard');
+      const basement = map.addTilesetImage('Basement', 'Basement');
+      const vendingmachine = map.addTilesetImage('vendingmachine', 'vendingmachine');
+    
+      // Create layers, passing the tilesets you want to use in the layer
+      const groundLayer = map.createLayer('Ground', [floorAndGround, basement], 0, 0);  // Example: Combining multiple tilesets in one layer
+      const objectLayer = map.createLayer('Objects', [chair, modernOffice, generic, computer, whiteboard, vendingmachine], 0, 0);
+    
+      // Enable collisions for certain layers if needed
+      // groundLayer.setCollisionByProperty({ collides: true });
+      // objectLayer.setCollisionByProperty({ collides: true });
       // Create player (avatar) sprite
       this.player = this.physics.add.sprite(100, 100, 'avatar');
       
