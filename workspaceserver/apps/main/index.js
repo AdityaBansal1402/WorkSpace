@@ -9,7 +9,7 @@ app.get('/',(req,res)=>{
 })
 app.use(cors())
 app.use(express.json())
-app.use('/api/main',require('./routes/Main/main'))
+// app.use('/api/main',require('./routes/Main/main'))
 app.listen(port, ()=>{
     console.log(`listening`);
 })

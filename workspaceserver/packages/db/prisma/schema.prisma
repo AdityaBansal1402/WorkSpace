@@ -24,14 +24,14 @@ model User{
 }
 
 model Space{
-    id          String @id @unique @default(cuid())
-    name        String
-    width       Int
-    hight       Int?
-    thumbnail   String?
-  adminId       String
-  admin         User @relation(fields: [adminId],references: [id])
-  spaceelements spaceElements[]
+    id            String @id @unique @default(cuid())
+    name          String
+    width         Int
+    hight         Int?
+    thumbnail     String?
+    adminId       String
+    admin         User @relation(fields: [adminId],references: [id])
+    spaceelements spaceElements[]
 
 }
 
@@ -69,7 +69,7 @@ model Map{
 model mapElements{
   id        String @id @unique @default(cuid())
   elementId String
-  mapId   String
+  mapId     String
   x         String
   y         String
   map       Map @relation(fields: [mapId],references: [id])
