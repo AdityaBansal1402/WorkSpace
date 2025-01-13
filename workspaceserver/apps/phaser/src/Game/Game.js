@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as Phaser from 'phaser';
 
-
 const Game = () => {
   const gameRef = useRef(null);
 
@@ -65,9 +64,6 @@ const Game = () => {
       const groundLayer = map.createLayer('Ground', [floorAndGround, basement], 0, 0);  // Example: Combining multiple tilesets in one layer
       const objectLayer = map.createLayer('Objects', [chair, modernOffice, generic, computer, whiteboard, vendingmachine], 0, 0);
     
-      // Enable collisions for certain layers if needed
-      // groundLayer.setCollisionByProperty({ collides: true });
-      // objectLayer.setCollisionByProperty({ collides: true });
       // Create player (avatar) sprite
       this.player = this.physics.add.sprite(100, 100, 'avatar');
       
@@ -81,26 +77,34 @@ const Game = () => {
       // Create walking animations for avatar
       this.anims.create({
         key: 'walk_down',
-        frames: this.anims.generateFrameNumbers('avatar', { start: 0, end: 3 }),
+        frames: this.anims.generateFrameNumbers('avatar', { start: 43, end: 47 }),
         frameRate: 10,
         repeat: -1,
       });
       this.anims.create({
         key: 'walk_left',
-        frames: this.anims.generateFrameNumbers('avatar', { start: 4, end: 7 }),
+        frames: this.anims.generateFrameNumbers('avatar', { start: 37, end: 41 }),
         frameRate: 10,
         repeat: -1,
       });
       this.anims.create({
         key: 'walk_right',
-        frames: this.anims.generateFrameNumbers('avatar', { start: 8, end: 11 }),
+        frames: this.anims.generateFrameNumbers('avatar', { start: 25, end: 29 }),
         frameRate: 10,
         repeat: -1,
       });
       this.anims.create({
         key: 'walk_up',
-        frames: this.anims.generateFrameNumbers('avatar', { start: 12, end: 15 }),
+        frames: this.anims.generateFrameNumbers('avatar', { start: 31, end: 35 }),
         frameRate: 10,
+        repeat: -1,
+      });
+
+      // Create idle animation for avatar
+      this.anims.create({
+        key: 'idle',
+        frames: this.anims.generateFrameNumbers('avatar', { start: 0, end: 3 }),
+        frameRate: 5,
         repeat: -1,
       });
     }
@@ -124,7 +128,7 @@ const Game = () => {
         this.player.setVelocityY(100);  // Move down
         this.player.anims.play('walk_down', true);
       } else {
-        this.player.anims.stop();  // Stop animation when player is idle
+        this.player.anims.play('idle', true);  // Play idle animation when player is idle
       }
     }
 
